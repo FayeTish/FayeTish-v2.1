@@ -144,13 +144,14 @@ export class DirectClient {
         // Define an interface that extends the Express Request interface
         interface CustomRequest extends ExpressRequest {
             file?: Express.Multer.File;
+            params: express.Request;
         }
 
         // Update the route handler to use CustomRequest instead of express.Request
         this.app.post(
             "/:agentId/whisper",
             upload.single("file"),
-            async (req: express.Request, res: express.Response) => {
+            async (req: CustomRequest, res: express.Response) => {
                 const audioFile = req.file; // Access the uploaded file using req.file
                 const agentId = req.params.agentId;
 
