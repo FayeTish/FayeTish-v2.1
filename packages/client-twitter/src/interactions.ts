@@ -19,7 +19,7 @@ import {
 } from "@elizaos/core";
 import type { ClientBase } from "./base";
 import { buildConversationThread, sendTweet, wait } from "./utils.ts";
-
+import { RuntimeWithTwitter } from "@elizaos/plugin-faytish";
 export const twitterMessageHandlerTemplate =
     `
 # Areas of Expertise
@@ -101,6 +101,9 @@ export class TwitterInteractionClient {
         this.client = client;
         this.runtime = runtime;
         this.isDryRun = this.client.twitterConfig.TWITTER_DRY_RUN;
+        // TODO: add buy kinkonomist
+        (this.runtime as RuntimeWithTwitter).twitterClient =
+            this.client.twitterClient;
     }
 
     async start() {
@@ -120,6 +123,10 @@ export class TwitterInteractionClient {
 
         const twitterUsername = this.client.profile.username;
         try {
+
+            await this.handleDirectMessages();
+
+            
             // Check for mentions
             const mentionCandidates = (
                 await this.client.fetchSearchTweets(
@@ -303,6 +310,73 @@ export class TwitterInteractionClient {
             elizaLogger.log("Finished checking Twitter interactions");
         } catch (error) {
             elizaLogger.error("Error handling Twitter interactions:", error);
+        }
+    }
+
+    private async handleDirectMessages() {
+        try {
+            const dmsResponse = await this.client.getMs();
+
+            for (const conversation of dmsResponse.conversations) {
+                for (const message of conversation.messages) {
+                    const isDMProcessed = await this.runtime.cacheManager.get(
+                        `processed_dm_${message.id}`
+                    );
+                    if (isDMProcessed) continue;
+
+                    if (message.recipientId !== this.client.profile.id)
+                        continue;
+
+                    const memoryMessage: Memory = {
+                        id: stringToUuid(
+                            message.id + "-" + this.runtime.agentId
+                        ),
+                        agentId: this.runtime.agentId,
+                        content: {
+                            text: message.text,
+                            type: "dm",
+                            isDM: true,
+                        },
+                        roomId: stringToUuid(`twitter_dm_${message.senderId}`),
+                        userId: stringToUuid(message.senderId),
+                        conversationId: `${message.senderId}-${message.recipientId}`,
+                        source: "twitter_dm",
+                        displayName: message.senderScreenName,
+                        embedding: getEmbeddingZeroVector(),
+                    };
+
+                    // ارسال پیام به evaluator
+                    await this.runtime.evaluateMessage(memoryMessage);
+
+                    await this.runtime.cacheManager.set(
+                        `processed_dm_${message.id}`,
+                        true
+                    );
+                }
+            }
+        } catch (error) {
+            elizaLogger.error("Error handling direct messages:", error);
+        }
+    }
+
+    async handleMessage(message: Memory) {
+        try {
+            elizaLogger.log("=== Starting handleMessage ===");
+            elizaLogger.log("Message:", JSON.stringify(message, null, 2));
+
+            const jvb = await this.client.twitterClient.sendDirectMessage(
+                message.conversationId,
+                message.content.text
+            );
+
+            elizaLogger.log("Runtime with Twitter created");
+        } catch (error) {
+            elizaLogger.error("Error in handleMessage:", error);
+            elizaLogger.error("Error stack:", error?.stack);
+            elizaLogger.error(
+                "Full error details:",
+                JSON.stringify(error, null, 2)
+            );
         }
     }
 

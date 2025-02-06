@@ -799,4 +799,16 @@ export class ClientBase extends EventEmitter {
             throw error;
         }
     }
+
+    async getMs(): Promise<any> {
+        try {
+            elizaLogger.debug("Fetching direct messages");
+            const response =
+                await this.twitterClient.getDirectMessageConversations("10");
+            return response;
+        } catch (error) {
+            elizaLogger.error("Error fetching direct messages:", error);
+            return [];
+        }
+    }
 }

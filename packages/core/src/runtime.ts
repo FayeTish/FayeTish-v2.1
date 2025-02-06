@@ -1762,6 +1762,21 @@ Text: ${attachment.text}
         } as State;
     }
 
+    async evaluateMessage(message: Memory): Promise<void> {
+        try {
+            const evaluators = this.evaluators;
+            
+            for (const evaluator of evaluators) {
+                const isValid = await evaluator.validate(this, message);
+                if (isValid) {
+                    await evaluator.handler(this, message);
+                }
+            }
+        } catch (error) {
+            elizaLogger.error("Error evaluating message:", error);
+        }
+    }
+
     getVerifiableInferenceAdapter(): IVerifiableInferenceAdapter | undefined {
         return this.verifiableInferenceAdapter;
     }
