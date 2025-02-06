@@ -283,6 +283,9 @@ importers:
       '@elizaos/plugin-intiface':
         specifier: workspace:*
         version: link:../packages/plugin-intiface
+      '@elizaos/plugin-iq6900':
+        specifier: workspace:*
+        version: link:../packages/plugin-iq6900
       '@elizaos/plugin-lens-network':
         specifier: workspace:*
         version: link:../packages/plugin-lens-network
@@ -2237,6 +2240,22 @@ importers:
       whatwg-url:
         specifier: 7.1.0
         version: 7.1.0
+
+  packages/plugin-iq6900:
+    dependencies:
+      '@elizaos/core':
+        specifier: workspace:*
+        version: link:../core
+      '@solana/web3.js':
+        specifier: npm:@solana/web3.js@1.95.8
+        version: 1.95.8(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.17.9
+      tsup:
+        specifier: 8.3.5
+        version: 8.3.5(@swc/core@1.10.14(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.1)(typescript@5.7.3)(yaml@2.7.0)
 
   packages/plugin-lens-network:
     dependencies:
@@ -37078,7 +37097,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.26.7
       '@noble/curves': 1.8.1
-      '@noble/hashes': 1.5.0
+      '@noble/hashes': 1.7.1
       '@solana/buffer-layout': 4.0.1
       agentkeepalive: 4.6.0
       bigint-buffer: 1.1.5
@@ -37731,7 +37750,7 @@ snapshots:
 
   '@types/bs58@4.0.4':
     dependencies:
-      '@types/node': 22.13.1
+      '@types/node': 20.17.9
       base-x: 3.0.10
 
   '@types/cacheable-request@6.0.3':
@@ -44444,7 +44463,7 @@ snapshots:
 
   extract-zip@2.0.1:
     dependencies:
-      debug: 4.3.4
+      debug: 4.4.0(supports-color@8.1.1)
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -51524,7 +51543,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.13.1
+      '@types/node': 20.17.9
       long: 5.2.4
 
   protocols@2.0.1: {}

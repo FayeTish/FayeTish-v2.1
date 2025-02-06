@@ -91,6 +91,7 @@
         "@elizaos/plugin-trikon": "workspace:*",
         "@elizaos/plugin-zilliqa": "workspace:*",
         "@elizaos/plugin-iq6900": "workspace:*",
+	"@elizaos/plugin-di": "workspace:*",
         "@elizaos/plugin-sgx": "workspace:*",
         "@elizaos/plugin-tee-log": "workspace:*",
         "@elizaos/plugin-fayetish": "workspace:*",
