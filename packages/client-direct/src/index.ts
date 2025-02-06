@@ -152,7 +152,7 @@ export class DirectClient {
             upload.single("file"),
             async (req: CustomRequest, res: express.Response) => {
                 const audioFile = req.file; // Access the uploaded file using req.file
-                const agentId = req.param.agentId;
+                const agentId = req.params.agentId;
 
                 if (!audioFile) {
                     res.status(400).send("No audio file provided");
