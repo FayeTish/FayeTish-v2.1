@@ -86,7 +86,6 @@
         "@elizaos/plugin-dkg": "workspace:*",
         "@elizaos/plugin-imgflip": "workspace:*",
         "@elizaos/plugin-ethstorage": "workspace:*",
-        "@elizaos/plugin-dcap": "workspace:*",
         "@elizaos/plugin-form": "workspace:*",
         "@elizaos/plugin-ankr": "workspace:*",
         "@elizaos/client-xmtp": "workspace:*",
