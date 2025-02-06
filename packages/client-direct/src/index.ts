@@ -144,7 +144,7 @@ export class DirectClient {
         // Define an interface that extends the Express Request interface
         interface CustomRequest extends ExpressRequest {
             file?: Express.Multer.File;
-            param?: Express.Multer.param;
+            params?: Express.Multer.params;
         }
 
         // Update the route handler to use CustomRequest instead of express.Request
@@ -153,7 +153,7 @@ export class DirectClient {
             upload.single("file"),
             async (req: CustomRequest, res: express.Response) => {
                 const audioFile = req.file; // Access the uploaded file using req.file
-                const agentId = req.param.agentId;
+                const agentId = req.params.agentId;
 
                 if (!audioFile) {
                     res.status(400).send("No audio file provided");
