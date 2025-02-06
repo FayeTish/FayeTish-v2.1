@@ -1190,20 +1190,20 @@ const startAgents = async () => {
     const args = parseArguments();
     const charactersArg = args.characters || args.character;
     let characters = [defaultCharacter];
-
+    elizaLogger.log("START 1");
     if (process.env.IQ_WALLET_ADDRESS && process.env.IQSOlRPC) {
         characters = await loadCharacterFromOnchain();
     }
-
+    elizaLogger.log("START 2");
     const notOnchainJson = !onchainJson || onchainJson == "null";
-
+    elizaLogger.log("START 3");
     if ((notOnchainJson && charactersArg) || hasValidRemoteUrls()) {
         characters = await loadCharacters(charactersArg);
     }
-
+    elizaLogger.log("START 4");
     // Normalize characters for injectable plugins
     characters = await Promise.all(characters.map(normalizeCharacter));
-
+    elizaLogger.log("START 5");
     try {
         for (const character of characters) {
             await startAgent(character, directClient);
@@ -1211,7 +1211,7 @@ const startAgents = async () => {
     } catch (error) {
         elizaLogger.error("Error starting agents:", error);
     }
-
+    elizaLogger.log("START 6");
     // Find available port
     while (!(await checkPortAvailable(serverPort))) {
         elizaLogger.warn(
@@ -1219,7 +1219,7 @@ const startAgents = async () => {
         );
         serverPort++;
     }
-
+    elizaLogger.log("START 7");
     // upload some agent functionality into directClient
     directClient.startAgent = async (character) => {
         // Handle plugins
@@ -1228,16 +1228,16 @@ const startAgents = async () => {
         // wrap it so we don't have to inject directClient later
         return startAgent(character, directClient);
     };
-
+    elizaLogger.log("START 8");
     directClient.loadCharacterTryPath = loadCharacterTryPath;
     directClient.jsonToCharacter = jsonToCharacter;
-
+    elizaLogger.log("START 9");
     directClient.start(serverPort);
-
+    elizaLogger.log("START 10");
     if (serverPort !== Number.parseInt(settings.SERVER_PORT || "3000")) {
         elizaLogger.log(`Server started on alternate port ${serverPort}`);
-    }
-
+    }   
+    elizaLogger.log("START 11");
     elizaLogger.info(
         "Run `pnpm start:client` to start the client and visit the outputted URL (http://localhost:5173) to chat with your agents. When running multiple agents, use client with different port `SERVER_PORT=3001 pnpm start:client`"
     );
