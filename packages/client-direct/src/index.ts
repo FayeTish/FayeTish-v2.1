@@ -150,7 +150,7 @@ export class DirectClient {
         this.app.post(
             "/:agentId/whisper",
             upload.single("file"),
-            async (req: CustomRequest, res: express.Response) => {
+            async (req: express.Request, res: express.Response) => {
                 const audioFile = req.file; // Access the uploaded file using req.file
                 const agentId = req.params.agentId;
 
