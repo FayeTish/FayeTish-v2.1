@@ -142,9 +142,8 @@ export class DirectClient {
         this.app.use(apiLogRouter);
 
         // Define an interface that extends the Express Request interface
-        interface CustomRequest<P = Record<string, string>> extends ExpressRequest<P> {
+        interface CustomRequest extends ExpressRequest {
             file?: Express.Multer.File;
-            params: express.Request;
         }
 
         // Update the route handler to use CustomRequest instead of express.Request
