@@ -144,6 +144,7 @@ export class DirectClient {
         // Define an interface that extends the Express Request interface
         interface CustomRequest extends ExpressRequest {
             file?: Express.Multer.File;
+            params?: Express.Multer.Params;
         }
 
         // Update the route handler to use CustomRequest instead of express.Request
