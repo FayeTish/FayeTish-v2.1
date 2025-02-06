@@ -62,7 +62,6 @@
         "@elizaos/plugin-solana-agent-kit": "workspace:*",
         "@elizaos/plugin-starknet": "workspace:*",
         "@elizaos/plugin-tee": "workspace:*",
-        "@elizaos/plugin-tee-log": "workspace:*",
         "@elizaos/plugin-tee-marlin": "workspace:*",
         "@elizaos/plugin-twitter": "workspace:*",
         "@elizaos/plugin-3d-generation": "workspace:*",
