@@ -1043,7 +1043,7 @@ export class PostgresDatabaseAdapter
                 `;
 
                 const { rows } = await this.pool.query(sql, [
-                    opts.query_input,
+                    queryInput,
                     opts.query_field_sub_name,
                     opts.query_table_name,
                     opts.query_match_count,
