@@ -1012,7 +1012,7 @@ export class PostgresDatabaseAdapter
                 });
                 
                 const queryInput = opts.query_input.length > 255 
-                    ? opts.query_input.slice(0, 255)  // Truncate the input to 255 characters
+                    ? opts.query_input.slice(0, 250)  // Truncate the input to 255 characters
                     : opts.query_input;
 
                 const sql = `
