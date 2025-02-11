@@ -1010,6 +1010,10 @@ export class PostgresDatabaseAdapter
                     matchCount: opts.query_match_count,
                     inputLength: opts.query_input.length,
                 });
+                
+                const queryInput = opts.query_input.length > 255 
+                    ? opts.query_input.slice(0, 255)  // Truncate the input to 255 characters
+                    : opts.query_input;
 
                 const sql = `
                     WITH content_text AS (
@@ -1026,12 +1030,12 @@ export class PostgresDatabaseAdapter
                     SELECT
                         embedding,
                         levenshtein(
-                            LEFT($1, 255),
+                            $1,
                             content_text
                         ) as levenshtein_score
                     FROM content_text
                     WHERE levenshtein(
-                        LEFT($1, 255),
+                        $1,
                         content_text
                     ) <= $5  -- Add threshold check
                     ORDER BY levenshtein_score
