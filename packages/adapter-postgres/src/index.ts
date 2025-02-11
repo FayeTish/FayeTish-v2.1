@@ -1031,12 +1031,12 @@ export class PostgresDatabaseAdapter
                         embedding,
                         levenshtein(
                             $1,
-                            content_text
+                            LEFT(content_text, 255)
                         ) as levenshtein_score
                     FROM content_text
                     WHERE levenshtein(
                         $1,
-                        content_text
+                        LEFT(content_text, 255)
                     ) <= $5  -- Add threshold check
                     ORDER BY levenshtein_score
                     LIMIT $4
