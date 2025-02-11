@@ -1010,10 +1010,6 @@ export class PostgresDatabaseAdapter
                     matchCount: opts.query_match_count,
                     inputLength: opts.query_input.length,
                 });
-                
-                const queryInput = opts.query_input.length > 255 
-                    ? opts.query_input.slice(0, 250)  // Truncate the input to 255 characters
-                    : opts.query_input;
 
                 const sql = `
                     WITH content_text AS (
@@ -1043,7 +1039,7 @@ export class PostgresDatabaseAdapter
                 `;
 
                 const { rows } = await this.pool.query(sql, [
-                    queryInput,
+                    opts.query_input,
                     opts.query_field_sub_name,
                     opts.query_table_name,
                     opts.query_match_count,
